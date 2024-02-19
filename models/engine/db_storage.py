@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""This module defines a class to manage file storage for hbnb clone"""
+""" db storage engine """
+
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -13,12 +14,13 @@ from os import getenv
 
 
 class DBStorage:
-    """Class Documentation"""
+    """Class Docs"""
+
     __engine = None
     __session = None
 
     def __init__(self):
-        """Function Documents"""
+        """Function Docs"""
         hb_user = getenv("HBNB_MYSQL_USER")
         hb_pwd = getenv("HBNB_MYSQL_PWD")
         hb_host = getenv("HBNB_MYSQL_HOST")
@@ -34,7 +36,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def reload(self):
-        """ reload the methods """
+        """ reload method """
         Base.metadata.create_all(self.__engine)
         Session = scoped_session(
             sessionmaker(bind=self.__engine, expire_on_commit=False)
@@ -76,11 +78,11 @@ class DBStorage:
         return result
 
     def search(self, cls, id):
-        """ def document """
+        """ def doc """
         data = self.all(cls)
 
     def new(self, obj):
-        """add new object"""
+        """add new obj"""
         if obj:
             self.__session.add(obj)
 
@@ -89,10 +91,10 @@ class DBStorage:
         self.__session.commit()
 
     def delete(self, obj=None):
-        """delete from database session"""
+        """delete from the current database session"""
         if obj:
             self.__session.delete(obj)
 
     def close(self):
-        """document  method"""
+        """doc meth"""
         self.__session.close()

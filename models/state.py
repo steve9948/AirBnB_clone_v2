@@ -10,7 +10,7 @@ storage_type = getenv("HBNB_TYPE_STORAGE")
 
 
 class State(BaseModel, Base):
-    """ State class initial for the project"""
+    """ State class """
 
     __tablename__ = 'states'
     if storage_type == "db":
@@ -18,16 +18,17 @@ class State(BaseModel, Base):
         cities = relationship('City', cascade="all,delete", backref="state")
     else:
         name = ""
-        # FileStorage: getter attribute cities that
+        # DONE: for FileStorage: getter attribute cities that
         # returns the list of City instances with state_id equals
+        # to the current State.id => It will be the FileStorage
+        # relationship between State and City
 
         @property
         def cities(self):
-            """getter document"""
+            """getter docuemnt"""
             from models import storage
             citiesList = []
             citiesAll = storage.all(City)
-            #iterate over to update details
             for city in citiesAll.values():
                 if city.state_id == self.id:
                     citiesList.append(city)
